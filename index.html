@@ -3,213 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎆 Happy Diwali 🎆</title>
+<title>Happy Diwali Greeting 🎆</title>
 <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    color: #fff;
-    background: radial-gradient(circle at bottom, #1a001a, #000);
-  }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #ffb347, #ffcc33);
+  background-image: url('https://i.ibb.co/JrYJYyM/diya-bg.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+  color: #fff;
+  overflow: hidden;
+  min-height: 100vh;
+}
 
-  h1 {
-    margin-top: 20px;
-    font-size: 2.8em;
-    text-shadow: 0 0 15px #ffd700, 0 0 30px orange;
-    animation: glow 2s ease-in-out infinite alternate;
-  }
+.main-img {
+  width: 240px;
+  margin-top: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px gold;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from { box-shadow: 0 0 10px gold; }
+  to { box-shadow: 0 0 35px orange; }
+}
 
-  @keyframes glow {
-    from { text-shadow: 0 0 15px #ffd700, 0 0 25px orange; }
-    to { text-shadow: 0 0 35px #ff9900, 0 0 50px gold; }
-  }
+h1 {
+  font-size: 2.4em;
+  margin-top: 20px;
+  text-shadow: 0 0 20px #fff700, 0 0 35px #ff8c00;
+  animation: flicker 1.8s infinite alternate;
+}
+@keyframes flicker {
+  from { opacity: 0.9; }
+  to { opacity: 1; }
+}
 
-  img {
-    width: 320px;
-    margin-top: 80px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px gold;
-  }
+input {
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 8px;
+  border: none;
+  width: 80%;
+  max-width: 250px;
+  margin: 10px auto;
+  box-shadow: 0 0 10px #ffdf5e;
+}
 
-  #fromText {
-    font-size: 1.6em;
-    margin-top: 15px;
-    text-shadow: 0 0 10px gold;
-    animation: fadeIn 2s ease-in-out infinite alternate;
-  }
+button {
+  padding: 10px 25px;
+  font-size: 1em;
+  background: linear-gradient(90deg, #ffcc00, #ff6600);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 0 15px #ffdf5e;
+  transition: transform 0.2s;
+}
+button:hover {
+  transform: scale(1.05);
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0.7; }
-    to { opacity: 1; }
-  }
+.share-buttons {
+  margin-top: 15px;
+}
 
-  .name-box {
-    margin-top: 30px;
-  }
+.share-btn {
+  display: inline-block;
+  margin: 8px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.share-btn:hover {
+  transform: scale(1.1);
+}
 
-  input {
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    width: 220px;
-    font-size: 16px;
-    text-align: center;
-  }
+.whatsapp { background-color: #25D366; }
+.facebook { background-color: #1877F2; }
+.instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); }
 
-  button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(45deg, gold, orange);
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-  }
+canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  button:hover {
-    background: linear-gradient(45deg, orange, gold);
-  }
-
-  .share {
-    margin-top: 20px;
-  }
-
-  a.share-btn {
-    display: inline-block;
-    margin: 5px;
-    background: #25D366;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  a.share-btn.fb { background: #4267B2; }
-  a.share-btn.ig { background: #E1306C; }
-
-  /* Fireworks canvas */
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -1;
-  }
+#mainContainer {
+  position: relative;
+  z-index: 10;
+}
 </style>
 </head>
 <body>
 
 <canvas id="fireworks"></canvas>
 
-<img src="laxmimata.gif" alt="Laxmi Mata">
+<div id="mainContainer">
+  <img src="laxmimata.gif" alt="Laxmi Mata" class="main-img">
+  <h1 id="greetingText">✨ शुभ दीपावली ✨</h1>
 
-<h1>🎆 Happy Diwali 🎆</h1>
-
-<p id="fromText"></p>
-
-<div class="name-box">
-  <input type="text" id="senderName" placeholder="अपना नाम लिखें">
-  <button onclick="generateLink()">Link बनाएं</button>
-</div>
-
-<div id="shareSection" class="share" style="display:none;">
-  <p>अपना शुभकामना लिंक शेयर करें:</p>
-  <input type="text" id="shareLink" readonly style="width:80%;padding:8px;border-radius:8px;">
-  <br>
-  <a class="share-btn" id="waShare" target="_blank">WhatsApp</a>
-  <a class="share-btn fb" id="fbShare" target="_blank">Facebook</a>
-  <a class="share-btn ig" id="igShare" target="_blank">Instagram</a>
-</div>
-
-<script>
-  // ====== Check if link me "from" parameter hai ======
-  const params = new URLSearchParams(window.location.search);
-  const sender = params.get("from");
-  const fromText = document.getElementById("fromText");
-
-  if (sender) {
-    // Greeting jab link open hota hai
-    fromText.innerHTML = `✨ Happy Diwali from <b>${decodeURIComponent(sender)}</b> ✨`;
-  } else {
-    fromText.innerHTML = "💖 अपनी शुभकामनाएँ भेजें 💖";
-  }
-
-  // ====== Link Generator ======
-  function generateLink() {
-    const nameInput = document.getElementById("senderName").value.trim();
-    if (!nameInput) {
-      alert("कृपया अपना नाम डालें!");
-      return;
-    }
-
-    const link = `${window.location.origin}${window.location.pathname}?from=${encodeURIComponent(nameInput)}`;
-    document.getElementById("shareLink").value = link;
-    document.getElementById("shareSection").style.display = "block";
-
-    // Share links
-    document.getElementById("waShare").href = `https://wa.me/?text=🎆%20Happy%20Diwali%20from%20${encodeURIComponent(nameInput)}%20🎆%0A${encodeURIComponent(link)}`;
-    document.getElementById("fbShare").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
-    document.getElementById("igShare").href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
-  }
-
-  // ====== Fireworks animation ======
-  const canvas = document.getElementById('fireworks');
-  const ctx = canvas.getContext('2d');
-  let fireworks = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function Firework(x, y, color) {
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.radius = Math.random() * 3 + 2;
-    this.alpha = 1;
-    this.speedX = (Math.random() - 0.5) * 5;
-    this.speedY = (Math.random() - 0.5) * 5;
-  }
-
-  Firework.prototype.update = function() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.alpha -= 0.02;
-  };
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    fireworks = fireworks.filter(f => f.alpha > 0);
-    fireworks.forEach(f => {
-      f.update();
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${f.color},${f.alpha})`;
-      ctx.fill();
-    });
-    requestAnimationFrame(animate);
-  }
-
-  function launch() {
-    for (let i = 0; i < 25; i++) {
-      fireworks.push(new Firework(
-        Math.random() * canvas.width,
-        Math.random() * canvas.height * 0.5,
-        `${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`
-      ));
-    }
-  }
-
-  setInterval(launch, 1000);
-  animate();
-</script>
-
-</body>
-</html>
+  <div id="nameInputContainer">
+    <input type="text" id="senderName" placeholder="अपना नाम लिखें">
+    <br>
+    <button onc
