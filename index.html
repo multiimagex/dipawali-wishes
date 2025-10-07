@@ -3,37 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎇 Happy Diwali Greeting</title>
+<title>🎇 शुभ दीपावली 🎇</title>
 <style>
-/* 🔥 Background & layout */
+/* Body & Background */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  background: radial-gradient(circle at center, #ffcc66 0%, #ff6600 100%);
-  background-attachment: fixed;
+  background: linear-gradient(135deg, #ff9933, #ffcc33, #ffff66);
   color: #fff;
   overflow: hidden;
   min-height: 100vh;
 }
 
-/* 🪔 Decorative Diya */
-.diya {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220px;
-  z-index: 1;
+/* Big Diwali Text */
+h1#greetingText {
+  font-size: 3em;
+  margin-top: 30px;
+  font-weight: bold;
+  text-shadow: 2px 2px 15px #fff700, 0 0 25px #ff8c00;
+  animation: flicker 1.8s infinite alternate;
+}
+@keyframes flicker {
+  0% { opacity: 0.9; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
 }
 
-/* 🎇 Main Container */
-#mainContainer {
-  position: relative;
-  z-index: 2;
-  padding-top: 20px;
-}
-
+/* Main Image */
 .main-img {
   width: 240px;
   border-radius: 20px;
@@ -46,18 +43,7 @@ body {
   to { box-shadow: 0 0 35px orange; }
 }
 
-h1 {
-  font-size: 2.2em;
-  margin-top: 20px;
-  text-shadow: 0 0 15px #fff700, 0 0 25px #ff8c00;
-  animation: flicker 1.8s infinite alternate;
-}
-@keyframes flicker {
-  from { opacity: 0.9; }
-  to { opacity: 1; }
-}
-
-/* 🔤 Input & Button */
+/* Input & Button */
 input {
   padding: 10px;
   font-size: 1em;
@@ -81,27 +67,14 @@ button {
   box-shadow: 0 0 15px #ffdf5e;
   transition: transform 0.2s;
 }
-button:hover {
-  transform: scale(1.05);
-}
+button:hover { transform: scale(1.05); }
 
-/* 🔗 Link Box */
-#linkContainer {
-  margin-top: 20px;
-  display: none;
-}
-#generatedLink {
-  width: 90%;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
-}
+/* Link container */
+#linkContainer { display: none; margin-top: 20px; }
+#generatedLink { width: 90%; padding: 8px; border-radius: 8px; border: none; text-align: center; }
 
-/* 🌐 Share Buttons */
-.share-buttons {
-  margin-top: 15px;
-}
+/* Share Buttons */
+.share-buttons { margin-top: 15px; }
 .share-btn {
   display: inline-block;
   margin: 8px;
@@ -113,19 +86,15 @@ button:hover {
   transition: transform 0.2s;
 }
 .share-btn:hover { transform: scale(1.1); }
-
 .whatsapp { background-color: #25D366; }
 .facebook { background-color: #1877F2; }
 .instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); }
 
-/* 🎆 Fireworks Canvas */
-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+/* Fireworks Canvas */
+canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+
+/* Main container */
+#mainContainer { position: relative; z-index: 2; padding-top: 20px; }
 </style>
 </head>
 <body>
@@ -133,20 +102,20 @@ canvas {
 <canvas id="fireworks"></canvas>
 
 <div id="mainContainer">
-  <!-- 🌸 Laxmi Mata GIF -->
+  <!-- Laxmi Mata GIF -->
   <img src="laxmimata.gif" alt="Laxmi Mata" class="main-img">
 
-  <!-- 🪔 Greeting Text -->
+  <!-- Big Diwali Text -->
   <h1 id="greetingText">✨ शुभ दीपावली ✨</h1>
 
-  <!-- ✍️ Name Input -->
+  <!-- Name input -->
   <div id="nameInputContainer">
     <input type="text" id="senderName" placeholder="अपना नाम लिखें">
     <br>
     <button onclick="generateLink()">अपनी Greeting बनाएं</button>
   </div>
 
-  <!-- 🔗 Generated Link + Share Buttons -->
+  <!-- Generated link + share -->
   <div id="linkContainer">
     <p>👇 अपनी शेयर करने वाली लिंक:</p>
     <input type="text" id="generatedLink" readonly>
@@ -158,27 +127,22 @@ canvas {
   </div>
 </div>
 
-<!-- 🪔 Big Diya -->
-<img src="https://i.ibb.co/zsG6zxH/diya-lamp.png" alt="Diya" class="diya">
-
 <script>
-// 🪔 Check for sender name in URL
+// Check if URL has name param
 const url = new URL(window.location.href);
 const sender = url.searchParams.get("name");
-
-if (sender) {
+if(sender){
   document.getElementById("greetingText").innerText = `🎇 Happy Diwali from ${sender} 🎆`;
   document.getElementById("nameInputContainer").style.display = "none";
 }
 
-// 🔗 Generate Shareable Link
-function generateLink() {
+// Generate link + show share buttons
+function generateLink(){
   const name = document.getElementById("senderName").value.trim();
-  if (!name) return alert("कृपया अपना नाम लिखें!");
+  if(!name) return alert("कृपया अपना नाम लिखें!");
   
   const base = window.location.origin + window.location.pathname;
   const link = `${base}?name=${encodeURIComponent(name)}`;
-  
   document.getElementById("generatedLink").value = link;
   document.getElementById("linkContainer").style.display = "block";
 
@@ -187,7 +151,7 @@ function generateLink() {
   document.getElementById("ig").href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
 }
 
-// 🎆 Fireworks Animation
+// Fireworks animation
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -198,14 +162,7 @@ function createFirework(){
   const x=random(100,canvas.width-100);
   const y=random(50,canvas.height/2);
   for(let i=0;i<30;i++){
-    fireworks.push({
-      x,y,
-      r:2,
-      c:`hsl(${random(0,360)},100%,60%)`,
-      sx:random(-3,3),
-      sy:random(-3,3),
-      life:random(50,100)
-    });
+    fireworks.push({x,y,r:2,c:`hsl(${random(0,360)},100%,60%)`,sx:random(-3,3),sy:random(-3,3),life:random(50,100)});
   }
 }
 function animate(){
@@ -216,19 +173,14 @@ function animate(){
     ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
     ctx.fillStyle=f.c;
     ctx.fill();
-    f.x+=f.sx;
-    f.y+=f.sy;
-    f.life--;
-    if(f.life<=0)fireworks.splice(i,1);
+    f.x+=f.sx; f.y+=f.sy; f.life--;
+    if(f.life<=0) fireworks.splice(i,1);
   });
   requestAnimationFrame(animate);
 }
 setInterval(createFirework,1000);
 animate();
-window.addEventListener('resize',()=>{
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-});
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 </script>
 </body>
 </html>
