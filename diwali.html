@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎆 शुभ दीपावली 🎆</title>
+<title>🎆 Happy Diwali 🎆</title>
 <style>
   body {
     margin: 0;
@@ -31,6 +31,18 @@
     margin-top: 80px;
     border-radius: 20px;
     box-shadow: 0 0 40px gold;
+  }
+
+  #fromText {
+    font-size: 1.6em;
+    margin-top: 15px;
+    text-shadow: 0 0 10px gold;
+    animation: fadeIn 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
   }
 
   .name-box {
@@ -79,18 +91,6 @@
   a.share-btn.fb { background: #4267B2; }
   a.share-btn.ig { background: #E1306C; }
 
-  #fromText {
-    font-size: 1.4em;
-    margin-top: 15px;
-    text-shadow: 0 0 10px gold;
-    animation: fadeIn 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0.7; }
-    to { opacity: 1; }
-  }
-
   /* Fireworks canvas */
   canvas {
     position: fixed;
@@ -107,7 +107,8 @@
 
 <img src="laxmimata.gif" alt="Laxmi Mata">
 
-<h1>🎆 शुभ दीपावली 🎆</h1>
+<h1>🎆 Happy Diwali 🎆</h1>
+
 <p id="fromText"></p>
 
 <div class="name-box">
@@ -125,41 +126,47 @@
 </div>
 
 <script>
-  // ===== URL SE NAAM FETCH KARNA =====
+  // ====== Check if link me "from" parameter hai ======
   const params = new URLSearchParams(window.location.search);
-  const name = params.get("from");
+  const sender = params.get("from");
   const fromText = document.getElementById("fromText");
 
-  if (name) {
-    fromText.innerHTML = "✨ Happy Diwali from " + decodeURIComponent(name) + " ✨";
+  if (sender) {
+    // Greeting jab link open hota hai
+    fromText.innerHTML = `✨ Happy Diwali from <b>${decodeURIComponent(sender)}</b> ✨`;
   } else {
     fromText.innerHTML = "💖 अपनी शुभकामनाएँ भेजें 💖";
   }
 
-  // ===== LINK GENERATE KARNA =====
+  // ====== Link Generator ======
   function generateLink() {
-    const sender = document.getElementById("senderName").value.trim();
-    if (!sender) { alert("कृपया अपना नाम डालें!"); return; }
-    const link = window.location.origin + window.location.pathname + "?from=" + encodeURIComponent(sender);
+    const nameInput = document.getElementById("senderName").value.trim();
+    if (!nameInput) {
+      alert("कृपया अपना नाम डालें!");
+      return;
+    }
+
+    const link = `${window.location.origin}${window.location.pathname}?from=${encodeURIComponent(nameInput)}`;
     document.getElementById("shareLink").value = link;
     document.getElementById("shareSection").style.display = "block";
 
-    document.getElementById("waShare").href = `https://wa.me/?text=🎆 Happy%20Diwali%20from%20${encodeURIComponent(sender)}%20🎆%0A${encodeURIComponent(link)}`;
+    // Share links
+    document.getElementById("waShare").href = `https://wa.me/?text=🎆%20Happy%20Diwali%20from%20${encodeURIComponent(nameInput)}%20🎆%0A${encodeURIComponent(link)}`;
     document.getElementById("fbShare").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
     document.getElementById("igShare").href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
   }
 
-  // ===== FIREWORKS EFFECT =====
+  // ====== Fireworks animation ======
   const canvas = document.getElementById('fireworks');
   const ctx = canvas.getContext('2d');
   let fireworks = [];
-  resize();
-  window.addEventListener('resize', resize);
 
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
+  window.addEventListener('resize', resize);
+  resize();
 
   function Firework(x, y, color) {
     this.x = x;
