@@ -373,14 +373,20 @@ if(incomingName){
 const bgm = document.getElementById('bgm');
 const musicBtn = document.getElementById('musicBtn');
 let playing = false;
-musicBtn.addEventListener('click', toggleMusic);
-async function toggleMusic(){
+musicBtn.addEventListener('click', async ()=>{
   if(!playing){
-    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; } catch(e){ playing=false; }
-  } else { bgm.pause(); playing=false; musicBtn.textContent='🔊'; }
-}
-// try autoplay (may be blocked in some browsers)
-setTimeout(()=>{ bgm.play().then(()=>{ playing=true; musicBtn.textContent='🔈'; }).catch(()=>{}); }, 800);
+    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; }
+    catch(e){ alert('Tap again to start music 🎵'); }
+  } else {
+    bgm.pause(); playing=false; musicBtn.textContent='🔊';
+  }
+});
+document.body.addEventListener('click', async ()=>{
+  if(!playing){
+    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; }
+    catch(e){}
+  }
+},{once:true});
 
 /* ---------- Accessibility focus ---------- */
 nameInput.focus();
