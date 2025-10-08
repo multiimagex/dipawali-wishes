@@ -5,176 +5,171 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>✨ शुभ दीपावली ✨</title>
 <style>
-  :root{
-    --saffron1:#ff9933;
-    --saffron2:#ffcc33;
-    --yellow:#fff176;
-    --accent:#ff6a00;
-    --card-bg: rgba(255,255,255,0.06);
-    --text-dark: #3a1e00;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    min-height:100vh;
-    font-family: "Poppins", system-ui, sans-serif;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: linear-gradient(135deg,var(--saffron1), var(--saffron2) 45%, var(--yellow) 100%);
-    color:var(--text-dark);
-    overflow:hidden;
-  }
+:root{
+  --saffron1:#ff9933; --saffron2:#ffcc33; --yellow:#fff176; --accent:#ff6a00;
+  --card-fg: rgba(255,255,255,0.05);
+  --glass: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:"Poppins",system-ui,Calibri,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--saffron1),var(--saffron2) 45%,var(--yellow) 100%);
+  color:#3a1e00;
+  overflow:hidden;
+}
 
-  /* Canvas sits behind everything and is fully transparent except for sparks */
-  canvas#c{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    display:block;
-    pointer-events:none;
-  }
+/* Canvas layers stack: background sparks + text-overlay sparks */
+canvas.bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+canvas.textLayer { position:fixed; inset:0; z-index:6; pointer-events:none; }
 
-  /* central card (centered and large, like preview) */
-  .card{
-    width:min(900px,94vw);
-    max-width:900px;
-    border-radius:18px;
-    padding:26px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    box-shadow: 0 12px 40px rgba(0,0,0,0.16), 0 0 60px rgba(255,200,0,0.12);
-    position:relative;
-    z-index:2;
-    backdrop-filter: blur(6px);
-    display:flex;
-    gap:22px;
-    align-items:center;
-    justify-content:center;
-  }
+/* main card */
+.card{
+  width:min(980px,96vw);
+  border-radius:16px;
+  padding:22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  box-shadow:0 14px 50px rgba(0,0,0,0.18), 0 0 80px rgba(255,170,0,0.08);
+  backdrop-filter: blur(6px);
+  position:relative;
+  z-index:3;
+  display:flex;
+  gap:20px;
+  align-items:center;
+  justify-content:center;
+}
+.left { flex:0 0 320px; display:flex; align-items:center; justify-content:center; }
+.right { flex:1; padding:6px 8px; }
 
-  /* left: big image; right: controls (or vice versa on small screens) */
-  .left{
-    flex:0 0 300px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .right{
-    flex:1 1 420px;
-    padding:6px 8px;
-  }
+/* Laxmi image */
+img.laxmi{
+  width:300px; max-width:86%;
+  border-radius:12px;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.28), 0 0 30px rgba(255,180,30,0.12);
+  animation: float 3s ease-in-out infinite;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+}
+@keyframes float{ 0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)} }
 
-  img.laxmi{
-    width:280px;
-    max-width:80%;
-    border-radius:16px;
-    box-shadow: 0 14px 50px rgba(0,0,0,0.25), 0 0 26px rgba(255,200,0,0.18);
-    animation: float 3.2s ease-in-out infinite;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-  }
-  @keyframes float {
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-10px)}
-    100%{transform:translateY(0)}
-  }
+/* Big greeting with breathing glow */
+h1.big{
+  margin:0 0 4px; font-size:clamp(32px,5vw,64px); color:#fff; text-align:left;
+  font-weight:800;
+  text-shadow: 0 6px 30px rgba(255,230,150,0.95), 0 0 40px rgba(255,140,0,0.6);
+  animation: breath 3s ease-in-out infinite;
+  line-height:1;
+}
+@keyframes breath{
+  0% { transform: translateY(0) scale(1); filter:drop-shadow(0 0 18px rgba(255,200,0,0.6)); }
+  50% { transform: translateY(-6px) scale(1.01); filter:drop-shadow(0 0 36px rgba(255,200,0,0.9)); }
+  100% { transform: translateY(0) scale(1); filter:drop-shadow(0 0 18px rgba(255,200,0,0.6)); }
+}
 
-  h1.big{
-    margin:0 0 6px;
-    font-size: clamp(30px, 5vw, 56px);
-    color:#fff;
-    text-shadow: 0 6px 24px rgba(255,200,0,0.95), 0 0 40px rgba(255,140,0,0.65);
-  }
-  p.lead {
-    margin:6px 0 14px;
-    color:rgba(255,255,255,0.95);
-    font-size:1.05rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.15);
-  }
+/* small subtext */
+p.lead{ margin:6px 0 12px; color:rgba(255,255,255,0.95); font-size:1rem; text-align:left; }
 
-  input[type="text"]{
-    width:100%;
-    max-width:420px;
-    padding:12px 14px;
-    border-radius:10px;
-    border:none;
-    outline:none;
-    font-size:16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12), inset 0 0 18px rgba(255,255,255,0.03);
-    text-align:center;
-    background: rgba(255,255,255,0.02);
-    color:#fff;
-  }
+/* inputs & buttons */
+input[type="text"]{
+  width:100%; max-width:480px; padding:12px 14px; border-radius:10px; border:none;
+  background: rgba(255,255,255,0.04); color:#fff; text-align:center; font-size:16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.row{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+button.primary{
+  padding:12px 18px; border-radius:12px; border:none; cursor:pointer;
+  background:linear-gradient(90deg,var(--yellow),var(--accent)); color:#1b0a00; font-weight:800;
+  box-shadow: 0 10px 30px rgba(255,140,0,0.12);
+}
+button.ghost{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:transparent; color:#fff; cursor:pointer; }
 
-  .row { margin-top:12px; display:flex; gap:12px; align-items:center; justify-content:flex-start; flex-wrap:wrap; }
+/* link / share area */
+.link-box{ display:none; margin-top:14px; gap:10px; }
+.link-box input{ text-align:center; background:rgba(255,255,255,0.04); color:#fff; }
+.share-buttons{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+.share-a{ padding:10px 14px; border-radius:10px; color:#fff; font-weight:700; text-decoration:none; }
+.wa{ background:#25D366 } .fb{ background:#1877F2 } .ig{ background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4) }
 
-  button.primary{
-    padding:12px 18px;
-    border-radius:12px;
-    border:none;
-    background: linear-gradient(90deg, var(--yellow), var(--accent));
-    color:#1b0a00;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow: 0 10px 30px rgba(255,120,0,0.16);
-  }
-  button.ghost{
-    padding:10px 12px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,0.08);
-    background:transparent;
-    color:#fff;
-    cursor:pointer;
-  }
+/* incoming box */
+.incoming{ margin-top:14px; background: rgba(255,255,255,0.04); padding:12px; border-radius:10px; color:#fff; }
+.from-line{ margin-top:8px; font-weight:800; font-size:1.05rem; animation: pulse 1.8s infinite; }
+@keyframes pulse{ 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
 
-  .link-box{
-    display:none;
-    margin-top:16px;
-    gap:10px;
-  }
-  .link-box input{
-    text-align:center;
-    background: rgba(255,255,255,0.04);
-    color:#fff;
-  }
+/* floating diyas HTML+flame+smoke */
+.diya-wrap{
+  position:fixed; bottom:-120px; width:92px; height:120px; z-index:2; pointer-events:none;
+  animation: floatdiya 14s linear infinite;
+}
+@keyframes floatdiya{0%{transform:translateY(0)}50%{transform:translateY(-86vh)}100%{transform:translateY(0)}}
+.diya-base{
+  width:92px;height:54px;border-radius:0 0 46px 46px;background:linear-gradient(180deg,#8b4513,#5a2a00);
+  box-shadow: inset 0 -8px 18px rgba(0,0,0,0.45);
+  position:absolute; bottom:6px; left:0;
+}
+.flame{
+  position:absolute; left:44px; top:-22px; width:20px; height:40px; border-radius:50% 50% 60% 60% / 70% 70% 40% 40%;
+  background: radial-gradient(ellipse at bottom, #ffd34d 0%, #ff8a00 55%, transparent 100%);
+  transform-origin: bottom center; animation: flameFlick 0.13s infinite alternate;
+  box-shadow: 0 0 26px rgba(255,170,0,0.55);
+}
+@keyframes flameFlick{ from{ transform:rotate(-4deg) scale(1);} to{ transform:rotate(4deg) scale(1.08);} }
+/* smoke */
+.smoke{
+  position:absolute; left:34px; top:-60px; width:40px; height:40px; pointer-events:none; opacity:0.28;
+  filter: blur(10px);
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.35), rgba(255,255,255,0.06) 40%, transparent 65%);
+  animation: drift 6s linear infinite;
+}
+@keyframes drift{ 0%{ transform:translateY(0) scale(0.7); opacity:0.18 } 50%{ transform:translateY(-40px) scale(1.05); opacity:0.26 } 100%{ transform:translateY(0) scale(0.7); opacity:0.18 } }
 
-  .share-buttons{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; }
-  .share-a{
-    display:inline-flex; gap:8px; align-items:center;
-    padding:10px 14px; border-radius:10px; color:#fff;
-    font-weight:800; text-decoration:none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  }
-  .wa{ background:#25D366 } .fb{ background:#1877F2 } .ig{ background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4) }
+/* music btn */
+#musicBtn{ position:fixed; top:12px; right:12px; z-index:8; width:48px;height:48px;border-radius:50%; border:none; background:rgba(255,255,255,0.12); color:#fff; font-size:20px; cursor:pointer; backdrop-filter: blur(4px); }
 
-  .incoming{
-    margin-top:12px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    padding:12px; border-radius:10px;
-    color:#fff; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  }
-  .from-line{ margin-top:10px; font-weight:800; font-size:1.05rem; color:#fff; text-shadow: 0 2px 8px rgba(255,160,20,0.9); animation: pulse 1.6s infinite; }
-  @keyframes pulse{ 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
-
-  /* responsive: stack vertically on small screens */
-  @media (max-width:840px){
-    .card{ flex-direction:column; gap:18px; padding:18px; }
-    .left{ order:0 }
-    .right{ order:1 }
-    img.laxmi{ width:210px }
-  }
+/* responsive */
+@media (max-width:900px){ .card{flex-direction:column;gap:18px;padding:18px;} img.laxmi{width:220px}}
 </style>
 </head>
 <body>
 
-<canvas id="c"></canvas>
+<!-- background sparks layer -->
+<canvas class="bg" id="bgCanvas"></canvas>
+<!-- text-overlay sparks -->
+<canvas class="textLayer" id="textCanvas"></canvas>
 
-<div class="card" role="main" aria-labelledby="title">
+<!-- floating diyas (3 instances, with different delays/left) -->
+<div class="diya-wrap" style="left:8%; animation-delay:0s;">
+  <div class="smoke"></div>
+  <div class="flame"></div>
+  <div class="diya-base"></div>
+</div>
+<div class="diya-wrap" style="left:42%; animation-delay:4s;">
+  <div class="smoke"></div>
+  <div class="flame"></div>
+  <div class="diya-base"></div>
+</div>
+<div class="diya-wrap" style="left:76%; animation-delay:8s;">
+  <div class="smoke"></div>
+  <div class="flame"></div>
+  <div class="diya-base"></div>
+</div>
+
+<!-- music toggle -->
+<button id="musicBtn" title="Toggle music">🔊</button>
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/audio/2023/01/24/audio_9d865b5aa1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Main card -->
+<div class="card" role="main" aria-labelledby="g-title">
   <div class="left">
-    <img src="laxmimata.gif" alt="Laxmi Mata" class="laxmi" id="laxmiImg">
+    <img src="laxmimata.gif" alt="Laxmi Mata" class="laxmi">
   </div>
 
   <div class="right">
-    <h1 class="big" id="title">✨ शुभ दीपावली ✨</h1>
+    <h1 class="big" id="g-title">✨ शुभ दीपावली ✨</h1>
     <p class="lead" id="lead">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
 
     <div id="nameArea">
@@ -200,17 +195,17 @@
     <div class="incoming" id="incoming" style="display:none;">
       <div>आपको और आपके पूरे परिवार को दिवाली की बहुत बहुत शुभकामनाएँ</div>
       <div class="from-line" id="fromLine">—</div>
-      <div style="margin-top:8px; font-size:0.95rem; color:rgba(255,255,255,0.9)">आप चाहें तो अपना नाम डालकर यह संदेश किसी और को भेज सकते हैं।</div>
+      <div style="margin-top:8px;font-size:0.92rem;color:rgba(255,255,255,0.95)">आप भी अपना नाम डालकर आगे भेज सकते हैं।</div>
     </div>
   </div>
 </div>
 
 <script>
-/* Query param key used for sender name */
-const PARAM = 'from';
-function getParam(){ return new URL(window.location.href).searchParams.get(PARAM); }
+/* ---------- LINK + SHARE LOGIC ---------- */
+const PARAM='from';
+const u = new URL(window.location.href);
+const incomingName = u.searchParams.get(PARAM);
 
-/* elements */
 const nameInput = document.getElementById('nameInput');
 const genBtn = document.getElementById('genBtn');
 const clearBtn = document.getElementById('clearBtn');
@@ -223,20 +218,18 @@ const copyBtn = document.getElementById('copyBtn');
 const incoming = document.getElementById('incoming');
 const fromLine = document.getElementById('fromLine');
 const lead = document.getElementById('lead');
+const bigTitle = document.getElementById('g-title');
 
-const incomingName = getParam();
 if(incomingName){
   const dec = decodeURIComponent(incomingName);
-  incoming.style.display = 'block';
+  incoming.style.display='block';
   fromLine.innerText = `यह शुभकामना ${dec} की ओर से`;
   lead.innerText = 'आपको प्राप्त शुभकामना देखिये और अपना नाम डालकर आगे भेजें।';
-  nameInput.value = '';
 } else {
   lead.innerText = 'अपना नाम लिखें और अपनी Diwali greeting बनाकर शेयर करें।';
   nameInput.focus();
 }
 
-/* generate link */
 function baseLink(name){ return `${window.location.origin}${window.location.pathname}?${PARAM}=${encodeURIComponent(name)}`; }
 function updateShares(link, name){
   const text = `🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n${link}`;
@@ -244,100 +237,153 @@ function updateShares(link, name){
   fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
   igShare.href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
 }
+
 genBtn.addEventListener('click', ()=>{
   const n = (nameInput.value || '').trim();
   if(!n){ alert('कृपया अपना नाम दर्ज करें।'); nameInput.focus(); return; }
-  const link = baseLink(n);
-  genLink.value = link;
+  const l = baseLink(n);
+  genLink.value = l;
   linkBox.style.display = 'block';
   linkBox.setAttribute('aria-hidden','false');
-  updateShares(link, n);
+  updateShares(l,n);
+  // spawn a celebratory burst over the title when link generated
+  spawnTextBurst();
 });
 
-/* clear */
 clearBtn.addEventListener('click', ()=>{
-  nameInput.value = '';
-  genLink.value = '';
-  linkBox.style.display = 'none';
-  linkBox.setAttribute('aria-hidden','true');
-  nameInput.focus();
+  nameInput.value=''; genLink.value=''; linkBox.style.display='none'; linkBox.setAttribute('aria-hidden','true'); nameInput.focus();
 });
-
-/* copy */
 copyBtn.addEventListener('click', async ()=>{
   const v = genLink.value;
   if(!v) return;
-  try{ await navigator.clipboard.writeText(v); copyBtn.innerText = 'Copied!'; setTimeout(()=>copyBtn.innerText='Copy Link',1400); }
-  catch(e){ alert('Copy failed — manually select and copy the link.'); }
+  try{ await navigator.clipboard.writeText(v); copyBtn.innerText='Copied!'; setTimeout(()=>copyBtn.innerText='Copy Link',1200); }catch(e){ alert('Copy failed — manually select and copy the link.'); }
 });
-
-/* Enter key */
 nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') genBtn.click(); });
 
-/* --------------- Fireworks (transparent background, bright sparks) --------------- */
-const canvas = document.getElementById('c');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
-window.addEventListener('resize', ()=>{ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
-
-const sparks = [];
-
-function spawn(){
-  const cx = Math.random() * (W*0.8) + W*0.1;
+/* ---------- BACKGROUND FIREWORKS (bgCanvas) ---------- */
+const bg = document.getElementById('bgCanvas');
+const bgCtx = bg.getContext('2d');
+let W = bg.width = innerWidth, H = bg.height = innerHeight;
+onresize = ()=>{ W = bg.width = innerWidth; H = bg.height = innerHeight; textCanvas.width = W; textCanvas.height = H; };
+const particles = [];
+function spawnBgFirework(){
+  const cx = Math.random() * (W*0.85) + W*0.075;
   const cy = Math.random() * (H*0.45) + H*0.05;
-  const hue = Math.floor(Math.random()*60) + 18; // saffron-yellow hues
-  const count = 18 + Math.floor(Math.random()*18);
+  const hue = Math.floor(Math.random()*60)+18;
+  const count = 18 + Math.floor(Math.random()*22);
   for(let i=0;i<count;i++){
     const angle = Math.random()*Math.PI*2;
-    const speed = 1.6 + Math.random()*3.2;
-    sparks.push({
-      x: cx, y: cy,
-      vx: Math.cos(angle)*speed,
-      vy: Math.sin(angle)*speed,
-      life: 40 + Math.floor(Math.random()*60),
-      hue: hue + (Math.random()*40 - 20),
-      size: 1 + Math.random()*2.6
+    const speed = 1.8 + Math.random()*3.2;
+    particles.push({
+      x:cx, y:cy,
+      vx: Math.cos(angle)*speed*(0.6+Math.random()*1.6),
+      vy: Math.sin(angle)*speed*(0.6+Math.random()*1.6),
+      life:60 + Math.random()*80,
+      hue: hue + (Math.random()*40-20),
+      size: 1 + Math.random()*2
     });
   }
 }
-/* spawn every ~900ms */
-setInterval(spawn, 900);
+setInterval(spawnBgFirework,900);
 
-function draw(){
-  ctx.clearRect(0,0,W,H); // clear only — DO NOT fill black
-  // draw gentle ambient glow (subtle radial lights)
-  // (no dark overlay so page background shows fully)
-  for(let i=sparks.length-1;i>=0;i--){
-    const p = sparks[i];
-    p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.vx *= 0.998;
-    p.life--;
-    const a = Math.max(0, p.life / 80);
-    // bright glow circle
-    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*8);
+function drawBg(){
+  bgCtx.clearRect(0,0,W,H);
+  // optional soft glow background (do not obscure)
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.life--;
+    const a = Math.max(0, p.life/100);
+    const g = bgCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*8);
     g.addColorStop(0, `hsla(${p.hue},100%,65%,${0.95*a})`);
     g.addColorStop(0.4, `hsla(${p.hue},90%,55%,${0.35*a})`);
-    g.addColorStop(1, `hsla(${p.hue},90%,45%,${0})`);
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size*6, 0, Math.PI*2);
-    ctx.fill();
+    g.addColorStop(1, `hsla(${p.hue},90%,45%,0)`);
+    bgCtx.fillStyle = g;
+    bgCtx.beginPath(); bgCtx.arc(p.x,p.y,p.size*6,0,Math.PI*2); bgCtx.fill();
     // core
-    ctx.beginPath();
-    ctx.fillStyle = `hsla(${p.hue},100%,70%,${a})`;
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-    ctx.fill();
-    // occasional tiny sparkles
-    if(Math.random() < 0.04){
-      ctx.fillStyle = `rgba(255,255,255,${0.9*a})`;
-      ctx.fillRect(p.x + (Math.random()-0.5)*6, p.y + (Math.random()-0.5)*6, 1.2, 1.2);
-    }
-    if(p.life <= 0) sparks.splice(i,1);
+    bgCtx.beginPath();
+    bgCtx.fillStyle = `hsla(${p.hue},100%,70%,${a})`;
+    bgCtx.arc(p.x,p.y,p.size,0,Math.PI*2); bgCtx.fill();
+    if(p.life <= 0) particles.splice(i,1);
   }
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawBg);
 }
-draw();
+drawBg();
 
+/* ---------- TEXT-OVERLAY BURSTS (textCanvas) - small crackers directly above title/incoming ---------- */
+const textCanvas = document.getElementById('textCanvas');
+const textCtx = textCanvas.getContext('2d');
+textCanvas.width = W; textCanvas.height = H;
+let textSparks = [];
+
+function spawnTextBurst(){
+  // position above the title element
+  const titleRect = document.getElementById('g-title').getBoundingClientRect();
+  const cx = titleRect.left + titleRect.width/2;
+  const cy = titleRect.top + titleRect.height*0.15;
+  const hue = Math.floor(Math.random()*40)+24;
+  const count = 22 + Math.floor(Math.random()*20);
+  for(let i=0;i<count;i++){
+    const angle = (Math.PI * 2) * (i/count) + (Math.random()*0.6 - 0.3);
+    const speed = 1.8 + Math.random()*3;
+    textSparks.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle)*speed,
+      vy: Math.sin(angle)*speed,
+      life: 40 + Math.random()*40,
+      hue: hue + (Math.random()*30 - 15),
+      size: 1 + Math.random()*2
+    });
+  }
+  // small star-like burst particles
+  setTimeout(()=>{ for(let i=0;i<8;i++){ textSparks.push({
+    x: cx + (Math.random()-0.5)*40, y: cy + (Math.random()-0.5)*20,
+    vx:(Math.random()-0.5)*1.6, vy:(Math.random()-1.2)*1.6, life:30+Math.random()*30, hue:hue, size:1.2
+  }); }}, 60);
+}
+setInterval(()=>{ // occasional gentle bursts above title even without generate
+  if(Math.random() < 0.45) spawnTextBurst();
+}, 2200);
+
+function drawTextLayer(){
+  textCtx.clearRect(0,0,W,H);
+  for(let i=textSparks.length-1;i>=0;i--){
+    const p = textSparks[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.life--;
+    const a = Math.max(0, p.life/60);
+    // small glow
+    textCtx.beginPath();
+    textCtx.fillStyle = `hsla(${p.hue},95%,65%,${a})`;
+    textCtx.arc(p.x,p.y,p.size*2.6,0,Math.PI*2); textCtx.fill();
+    // core bright
+    textCtx.beginPath();
+    textCtx.fillStyle = `hsla(${p.hue},100%,85%,${a})`;
+    textCtx.arc(p.x,p.y,p.size,0,Math.PI*2); textCtx.fill();
+    if(p.life <= 0) textSparks.splice(i,1);
+  }
+  requestAnimationFrame(drawTextLayer);
+}
+drawTextLayer();
+
+/* ---------- Spawn a burst when page loaded if incoming present (celebrate) ---------- */
+if(incomingName){
+  setTimeout(()=> spawnTextBurst(), 300);
+}
+
+/* ---------- MUSIC CONTROL ---------- */
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+let playing = false;
+musicBtn.addEventListener('click', toggleMusic);
+async function toggleMusic(){
+  if(!playing){
+    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; } catch(e){ playing=false; }
+  } else { bgm.pause(); playing=false; musicBtn.textContent='🔊'; }
+}
+// try autoplay (may be blocked in some browsers)
+setTimeout(()=>{ bgm.play().then(()=>{ playing=true; musicBtn.textContent='🔈'; }).catch(()=>{}); }, 800);
+
+/* ---------- Accessibility focus ---------- */
+nameInput.focus();
 </script>
 </body>
 </html>
