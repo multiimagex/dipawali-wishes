@@ -6,332 +6,258 @@
 <title>✨ शुभ दीपावली ✨</title>
 <style>
   :root{
-    --saffron1:#ff9a2e;
-    --saffron2:#ffb84d;
+    --saffron1:#ff9933;
+    --saffron2:#ffcc33;
     --yellow:#fff176;
     --accent:#ff6a00;
-    --glow: rgba(255,200,0,0.35);
+    --card-bg: rgba(255,255,255,0.06);
+    --text-dark: #3a1e00;
   }
   *{box-sizing:border-box}
   body{
     margin:0;
     min-height:100vh;
-    font-family: "Noto Sans", "Poppins", system-ui, sans-serif;
+    font-family: "Poppins", system-ui, sans-serif;
     display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    background: linear-gradient(135deg,var(--saffron1), var(--saffron2) 40%, var(--yellow) 80%);
-    color:#311;
-    overflow:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-
-  /* central card */
-  .card{
-    margin-top:28px;
-    width:min(920px,96vw);
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    border-radius:18px;
-    padding:22px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18), 0 0 60px var(--glow);
-    position:relative;
-    z-index:5;
-    backdrop-filter: blur(6px);
-  }
-
-  /* big header */
-  h1.big {
-    margin:6px 0 8px;
-    font-size: clamp(28px, 4.2vw, 48px);
-    letter-spacing:1px;
-    color:#fff;
-    text-align:center;
-    text-shadow: 0 4px 18px rgba(255,200,0,0.9), 0 0 40px rgba(255,140,0,0.65);
-  }
-
-  /* Laxmi GIF */
-  .top-row{
-    display:flex;
-    gap:20px;
     align-items:center;
     justify-content:center;
-    flex-wrap:wrap;
+    background: linear-gradient(135deg,var(--saffron1), var(--saffron2) 45%, var(--yellow) 100%);
+    color:var(--text-dark);
+    overflow:hidden;
   }
+
+  /* Canvas sits behind everything and is fully transparent except for sparks */
+  canvas#c{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    display:block;
+    pointer-events:none;
+  }
+
+  /* central card (centered and large, like preview) */
+  .card{
+    width:min(900px,94vw);
+    max-width:900px;
+    border-radius:18px;
+    padding:26px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow: 0 12px 40px rgba(0,0,0,0.16), 0 0 60px rgba(255,200,0,0.12);
+    position:relative;
+    z-index:2;
+    backdrop-filter: blur(6px);
+    display:flex;
+    gap:22px;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* left: big image; right: controls (or vice versa on small screens) */
+  .left{
+    flex:0 0 300px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .right{
+    flex:1 1 420px;
+    padding:6px 8px;
+  }
+
   img.laxmi{
-    width:220px;
-    height:auto;
-    border-radius:14px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 30px rgba(255,200,0,0.25);
-    animation: float 3s ease-in-out infinite;
+    width:280px;
+    max-width:80%;
+    border-radius:16px;
+    box-shadow: 0 14px 50px rgba(0,0,0,0.25), 0 0 26px rgba(255,200,0,0.18);
+    animation: float 3.2s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
   }
   @keyframes float {
     0%{transform:translateY(0)}
-    50%{transform:translateY(-8px)}
+    50%{transform:translateY(-10px)}
     100%{transform:translateY(0)}
   }
 
-  /* text area + inputs */
-  .content{
-    max-width:520px;
-    text-align:center;
+  h1.big{
+    margin:0 0 6px;
+    font-size: clamp(30px, 5vw, 56px);
+    color:#fff;
+    text-shadow: 0 6px 24px rgba(255,200,0,0.95), 0 0 40px rgba(255,140,0,0.65);
   }
   p.lead {
-    margin:6px 0 16px;
-    color:#fffdf0;
+    margin:6px 0 14px;
+    color:rgba(255,255,255,0.95);
     font-size:1.05rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+    text-shadow: 0 1px 8px rgba(0,0,0,0.15);
   }
 
   input[type="text"]{
     width:100%;
-    max-width:360px;
+    max-width:420px;
     padding:12px 14px;
     border-radius:10px;
-    border: none;
+    border:none;
     outline:none;
     font-size:16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 0 18px rgba(255,255,255,0.03);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12), inset 0 0 18px rgba(255,255,255,0.03);
     text-align:center;
+    background: rgba(255,255,255,0.02);
+    color:#fff;
   }
-  .row { margin-top:12px; display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
+
+  .row { margin-top:12px; display:flex; gap:12px; align-items:center; justify-content:flex-start; flex-wrap:wrap; }
 
   button.primary{
-    padding:10px 18px;
-    border-radius:10px;
+    padding:12px 18px;
+    border-radius:12px;
     border:none;
     background: linear-gradient(90deg, var(--yellow), var(--accent));
     color:#1b0a00;
-    font-weight:700;
+    font-weight:800;
     cursor:pointer;
-    box-shadow: 0 8px 30px rgba(255,120,0,0.18);
+    box-shadow: 0 10px 30px rgba(255,120,0,0.16);
   }
   button.ghost{
-    padding:9px 12px;
+    padding:10px 12px;
     border-radius:10px;
-    border:1px solid rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.08);
     background:transparent;
     color:#fff;
     cursor:pointer;
   }
 
-  /* generated link box */
   .link-box{
-    margin-top:16px;
     display:none;
+    margin-top:16px;
     gap:10px;
-    align-items:center;
-    justify-content:center;
-    flex-wrap:wrap;
   }
   .link-box input{
-    background: rgba(255,255,255,0.06);
-    color:#fff;
     text-align:center;
+    background: rgba(255,255,255,0.04);
+    color:#fff;
   }
-  .share-buttons{ display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:12px; }
+
+  .share-buttons{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; }
   .share-a{
-    display:inline-flex;
-    gap:8px;
-    align-items:center;
-    padding:10px 12px;
-    border-radius:10px;
-    color:#fff;
-    text-decoration:none;
-    font-weight:700;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.14);
-    transition: transform .14s ease;
+    display:inline-flex; gap:8px; align-items:center;
+    padding:10px 14px; border-radius:10px; color:#fff;
+    font-weight:800; text-decoration:none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   }
-  .share-a:active{ transform:scale(.98) }
-  .wa{ background:#25D366; }
-  .fb{ background:#1877F2; }
-  .ig{ background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4); }
-  .copy-btn{
-    background: rgba(255,255,255,0.12);
-    color:#fff;
-    padding:10px 12px;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-    font-weight:700;
-  }
+  .wa{ background:#25D366 } .fb{ background:#1877F2 } .ig{ background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4) }
 
-  /* message shown when link opened */
-  .incoming-message{
-    margin-top:16px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    padding:12px;
-    border-radius:10px;
-    color:#fff;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  .incoming{
+    margin-top:12px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    padding:12px; border-radius:10px;
+    color:#fff; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
   }
-  .from-line{
-    margin-top:10px;
-    font-weight:800;
-    font-size:1.05rem;
-    color:#fff;
-    text-shadow: 0 2px 8px rgba(255,160,20,0.9);
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%{ transform:translateY(0) scale(1) }
-    50%{ transform:translateY(-6px) scale(1.02) }
-    100%{ transform:translateY(0) scale(1) }
-  }
+  .from-line{ margin-top:10px; font-weight:800; font-size:1.05rem; color:#fff; text-shadow: 0 2px 8px rgba(255,160,20,0.9); animation: pulse 1.6s infinite; }
+  @keyframes pulse{ 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
 
-  /* small footer instructions */
-  .hint{ font-size:0.9rem; color:rgba(255,255,255,0.9); margin-top:10px }
-
-  /* bottom decorative diya (SVG) */
-  .diya-svg{
-    position: absolute;
-    right:18px;
-    bottom:12px;
-    width:120px;
-    opacity:0.95;
-    z-index:3;
-    filter: drop-shadow(0 12px 30px rgba(255,150,0,0.35));
-    transform:translateY(6px);
-  }
-
-  /* responsive */
-  @media (max-width:640px){
-    .card{ padding:16px; margin-top:12px }
-    .top-row{ gap:10px }
-    img.laxmi{ width:160px }
-    .content{ padding:0 8px }
+  /* responsive: stack vertically on small screens */
+  @media (max-width:840px){
+    .card{ flex-direction:column; gap:18px; padding:18px; }
+    .left{ order:0 }
+    .right{ order:1 }
+    img.laxmi{ width:210px }
   }
 </style>
 </head>
 <body>
 
-<!-- Fireworks canvas -->
 <canvas id="c"></canvas>
 
-<!-- Main card -->
-<div class="card" role="main">
-  <h1 class="big">✨ शुभ दीपावली ✨</h1>
+<div class="card" role="main" aria-labelledby="title">
+  <div class="left">
+    <img src="laxmimata.gif" alt="Laxmi Mata" class="laxmi" id="laxmiImg">
+  </div>
 
-  <div class="top-row">
-    <!-- local gif: put laxmimata.gif in same folder -->
-    <img src="laxmimata.gif" alt="Laxmi Mata" class="laxmi" id="laxmiImg" />
+  <div class="right">
+    <h1 class="big" id="title">✨ शुभ दीपावली ✨</h1>
+    <p class="lead" id="lead">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
 
-    <div class="content">
-      <p class="lead" id="leadText">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
-
-      <!-- If page opened from someone else's generated link, we still show this box so receiver can forward -->
-      <div id="nameArea">
-        <input type="text" id="nameInput" placeholder="अपना नाम लिखें (उदाहरण: राहुल)">
-        <div class="row">
-          <button class="primary" id="genBtn">Link Generate करें</button>
-          <button class="ghost" id="clearBtn" title="Clear">Clear</button>
-        </div>
+    <div id="nameArea">
+      <input id="nameInput" type="text" placeholder="अपना नाम लिखें (उदा: राहुल)" autocomplete="off">
+      <div class="row">
+        <button class="primary" id="genBtn">Link Generate करें</button>
+        <button class="ghost" id="clearBtn">Clear</button>
       </div>
+    </div>
 
-      <!-- Generated link + share -->
-      <div class="link-box" id="linkBox" aria-hidden="true">
-        <input type="text" id="generatedLink" readonly />
-        <div class="row">
-          <button class="copy-btn" id="copyBtn">Copy Link</button>
-        </div>
-
-        <div class="share-buttons" id="shareButtons">
-          <a id="waShare" class="share-a wa" target="_blank" rel="noopener">📱 WhatsApp</a>
-          <a id="fbShare" class="share-a fb" target="_blank" rel="noopener">📘 Facebook</a>
-          <a id="igShare" class="share-a ig" target="_blank" rel="noopener">📸 Instagram</a>
-        </div>
+    <div class="link-box" id="linkBox" aria-hidden="true">
+      <input id="generatedLink" readonly>
+      <div class="row">
+        <button class="ghost" id="copyBtn">Copy Link</button>
       </div>
-
-      <!-- Incoming message shown when someone opens a ?from=... link -->
-      <div id="incoming" class="incoming-message" style="display:none;">
-        <div style="font-weight:800; font-size:1.05rem">आपको और आपके पूरे परिवार को दिवाली की बहुत बहुत शुभकामनाएँ</div>
-        <div class="from-line" id="fromLine">—</div>
-        <div class="hint">आप चाहें तो अपना नाम डालकर यह संदेश किसी और को भेज सकते हैं।</div>
+      <div class="share-buttons">
+        <a id="waShare" class="share-a wa" target="_blank" rel="noopener">📱 WhatsApp</a>
+        <a id="fbShare" class="share-a fb" target="_blank" rel="noopener">📘 Facebook</a>
+        <a id="igShare" class="share-a ig" target="_blank" rel="noopener">📸 Instagram</a>
       </div>
+    </div>
 
+    <div class="incoming" id="incoming" style="display:none;">
+      <div>आपको और आपके पूरे परिवार को दिवाली की बहुत बहुत शुभकामनाएँ</div>
+      <div class="from-line" id="fromLine">—</div>
+      <div style="margin-top:8px; font-size:0.95rem; color:rgba(255,255,255,0.9)">आप चाहें तो अपना नाम डालकर यह संदेश किसी और को भेज सकते हैं।</div>
     </div>
   </div>
 </div>
 
-<!-- decorative diya svg -->
-<svg class="diya-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <g fill="none" fill-rule="evenodd">
-    <path d="M256 480c110.5 0 200-89.5 200-200H56c0 110.5 89.5 200 200 200z" fill="#ffb74d"/>
-    <path d="M256 24c36.9 0 72.6 16.5 97.6 45.8C362.9 112 320 128 320 192c0 56-48 56-64 56s-64 0-64-56c0-64-42.9-80-33.6-122.2C183.4 40.5 219.1 24 256 24z" fill="#ffd54f"/>
-    <ellipse cx="256" cy="400" rx="200" ry="40" fill="#ff9800" opacity="0.08"/>
-  </g>
-</svg>
-
 <script>
-/* ---------- Helper & config ---------- */
-const paramKey = 'from'; // query param containing sender name
+/* Query param key used for sender name */
+const PARAM = 'from';
+function getParam(){ return new URL(window.location.href).searchParams.get(PARAM); }
 
-function qsParam(key){
-  const u = new URL(window.location.href);
-  return u.searchParams.get(key);
-}
-
-/* ---------- Elements ---------- */
+/* elements */
 const nameInput = document.getElementById('nameInput');
 const genBtn = document.getElementById('genBtn');
 const clearBtn = document.getElementById('clearBtn');
 const linkBox = document.getElementById('linkBox');
-const genLinkInput = document.getElementById('generatedLink');
+const genLink = document.getElementById('generatedLink');
 const waShare = document.getElementById('waShare');
 const fbShare = document.getElementById('fbShare');
 const igShare = document.getElementById('igShare');
 const copyBtn = document.getElementById('copyBtn');
 const incoming = document.getElementById('incoming');
 const fromLine = document.getElementById('fromLine');
-const leadText = document.getElementById('leadText');
+const lead = document.getElementById('lead');
 
-/* ---------- On load: if opened with ?from=Name ---------- */
-const incomingName = qsParam(paramKey);
+const incomingName = getParam();
 if(incomingName){
-  const decoded = decodeURIComponent(incomingName);
-  // show incoming message
+  const dec = decodeURIComponent(incomingName);
   incoming.style.display = 'block';
-  fromLine.innerText = `यह शुभकामना ${decoded} की ओर से`;
-  // guidance text
-  leadText.innerText = `दूसरे को भेजने के लिए अपना नाम डालें और लिंक बनाइए।`;
-  // prefill receiver's area empty (so they can enter their own)
+  fromLine.innerText = `यह शुभकामना ${dec} की ओर से`;
+  lead.innerText = 'आपको प्राप्त शुभकामना देखिये और अपना नाम डालकर आगे भेजें।';
   nameInput.value = '';
-  // keep name input visible so receiver can create their own
 } else {
-  // no incoming link: normal prompt
-  leadText.innerText = 'अपना नाम लिखें और अपनी Diwali greeting बनाकर शेयर करें।';
+  lead.innerText = 'अपना नाम लिखें और अपनी Diwali greeting बनाकर शेयर करें।';
+  nameInput.focus();
 }
 
-/* ---------- Link generation ---------- */
-function makeBaseLink(name){
-  const base = window.location.origin + window.location.pathname;
-  return `${base}?${paramKey}=${encodeURIComponent(name)}`;
-}
-
-function updateShareButtons(link, name){
-  const textWhats = `🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n\nदेखें: ${link}`;
-  waShare.href = `https://wa.me/?text=${encodeURIComponent(textWhats)}`;
+/* generate link */
+function baseLink(name){ return `${window.location.origin}${window.location.pathname}?${PARAM}=${encodeURIComponent(name)}`; }
+function updateShares(link, name){
+  const text = `🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n${link}`;
+  waShare.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
   fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
-  // Instagram doesn't support direct share url with prefilled text; open profile/new post - we provide link
   igShare.href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
 }
-
 genBtn.addEventListener('click', ()=>{
-  const name = (nameInput.value || '').trim();
-  if(!name){
-    alert('कृपया अपना नाम डालें।');
-    nameInput.focus();
-    return;
-  }
-  const link = makeBaseLink(name);
-  genLinkInput.value = link;
-  linkBox.style.display = 'flex';
+  const n = (nameInput.value || '').trim();
+  if(!n){ alert('कृपया अपना नाम दर्ज करें।'); nameInput.focus(); return; }
+  const link = baseLink(n);
+  genLink.value = link;
+  linkBox.style.display = 'block';
   linkBox.setAttribute('aria-hidden','false');
-  updateShareButtons(link, name);
+  updateShares(link, n);
 });
 
+/* clear */
 clearBtn.addEventListener('click', ()=>{
   nameInput.value = '';
-  genLinkInput.value = '';
+  genLink.value = '';
   linkBox.style.display = 'none';
   linkBox.setAttribute('aria-hidden','true');
   nameInput.focus();
@@ -339,90 +265,78 @@ clearBtn.addEventListener('click', ()=>{
 
 /* copy */
 copyBtn.addEventListener('click', async ()=>{
-  const val = genLinkInput.value;
-  if(!val) return;
-  try{
-    await navigator.clipboard.writeText(val);
-    copyBtn.innerText = 'Copied!';
-    setTimeout(()=> copyBtn.innerText = 'Copy Link', 1400);
-  } catch(e){
-    alert('Copy failed — manually select and copy the link.');
-  }
+  const v = genLink.value;
+  if(!v) return;
+  try{ await navigator.clipboard.writeText(v); copyBtn.innerText = 'Copied!'; setTimeout(()=>copyBtn.innerText='Copy Link',1400); }
+  catch(e){ alert('Copy failed — manually select and copy the link.'); }
 });
 
-/* ---------- Small tweak: pressing Enter triggers generate ---------- */
-nameInput.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter') { genBtn.click(); }
-});
+/* Enter key */
+nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') genBtn.click(); });
 
-/* ---------- Fireworks animation (simple, light-weight) ---------- */
+/* --------------- Fireworks (transparent background, bright sparks) --------------- */
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 let W = canvas.width = window.innerWidth;
 let H = canvas.height = window.innerHeight;
 window.addEventListener('resize', ()=>{ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
 
-const particles = [];
+const sparks = [];
 
-/* particle factory */
-function spawnFirework(){
+function spawn(){
   const cx = Math.random() * (W*0.8) + W*0.1;
   const cy = Math.random() * (H*0.45) + H*0.05;
-  const hue = Math.floor(Math.random()*360);
+  const hue = Math.floor(Math.random()*60) + 18; // saffron-yellow hues
   const count = 18 + Math.floor(Math.random()*18);
   for(let i=0;i<count;i++){
-    const speed = 1.8 + Math.random()*3;
-    const angle = (Math.PI*2) * (i/count) + (Math.random()*0.6 - 0.3);
-    particles.push({
-      x: cx,
-      y: cy,
-      vx: Math.cos(angle) * speed * (0.6 + Math.random()*1.4),
-      vy: Math.sin(angle) * speed * (0.6 + Math.random()*1.4),
-      life: 60 + Math.floor(Math.random()*60),
-      hue: hue + Math.random()*40 - 20,
-      size: 1 + Math.random()*2
+    const angle = Math.random()*Math.PI*2;
+    const speed = 1.6 + Math.random()*3.2;
+    sparks.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle)*speed,
+      vy: Math.sin(angle)*speed,
+      life: 40 + Math.floor(Math.random()*60),
+      hue: hue + (Math.random()*40 - 20),
+      size: 1 + Math.random()*2.6
     });
   }
 }
+/* spawn every ~900ms */
+setInterval(spawn, 900);
 
-/* spawn regularly */
-setInterval(spawnFirework, 900); // roughly every second
-
-function step(){
-  ctx.fillStyle = "rgba(0,0,0,0.12)";
-  ctx.fillRect(0,0,W,H);
-
-  for(let i = particles.length-1; i>=0; i--){
-    const p = particles[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.03; // gravity
-    p.vx *= 0.998;
+function draw(){
+  ctx.clearRect(0,0,W,H); // clear only — DO NOT fill black
+  // draw gentle ambient glow (subtle radial lights)
+  // (no dark overlay so page background shows fully)
+  for(let i=sparks.length-1;i>=0;i--){
+    const p = sparks[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.vx *= 0.998;
     p.life--;
-    const alpha = Math.max(0, p.life / 90);
+    const a = Math.max(0, p.life / 80);
+    // bright glow circle
+    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*8);
+    g.addColorStop(0, `hsla(${p.hue},100%,65%,${0.95*a})`);
+    g.addColorStop(0.4, `hsla(${p.hue},90%,55%,${0.35*a})`);
+    g.addColorStop(1, `hsla(${p.hue},90%,45%,${0})`);
+    ctx.fillStyle = g;
     ctx.beginPath();
-    ctx.fillStyle = `hsla(${p.hue},90%,60%, ${alpha})`;
+    ctx.arc(p.x, p.y, p.size*6, 0, Math.PI*2);
+    ctx.fill();
+    // core
+    ctx.beginPath();
+    ctx.fillStyle = `hsla(${p.hue},100%,70%,${a})`;
     ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
     ctx.fill();
-    // sparkle trail
-    if(Math.random() < 0.06){
-      ctx.beginPath();
-      ctx.fillStyle = `hsla(${p.hue},100%,85%,${alpha*0.6})`;
-      ctx.fillRect(p.x + (Math.random()-0.5)*6, p.y + (Math.random()-0.5)*6, 1.5, 1.5);
+    // occasional tiny sparkles
+    if(Math.random() < 0.04){
+      ctx.fillStyle = `rgba(255,255,255,${0.9*a})`;
+      ctx.fillRect(p.x + (Math.random()-0.5)*6, p.y + (Math.random()-0.5)*6, 1.2, 1.2);
     }
-    if(p.life <= 0){
-      particles.splice(i,1);
-    }
+    if(p.life <= 0) sparks.splice(i,1);
   }
-  requestAnimationFrame(step);
+  requestAnimationFrame(draw);
 }
-step();
-
-/* ---------- Accessibility: focus name input on load ---------- */
-nameInput.focus();
-
-/* ---------- Safety note: user must place laxmimata.gif next to this file ---------- */
-/* If image not found, browser will show broken image icon — ensure `laxmimata.gif` is uploaded to same repo/folder. */
+draw();
 
 </script>
 </body>
