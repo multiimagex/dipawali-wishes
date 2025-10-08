@@ -176,7 +176,7 @@ button.ghost{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,2
     <p class="lead" id="lead">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
 
     <div id="nameArea">
-      <input id="nameInput" type="text" placeholder="अपना नाम लिखें" autocomplete="off">
+      <input id="nameInput" type="text" placeholder="अपना नाम लिखें (उदा: राहुल)" autocomplete="off">
       <div class="row">
         <button class="primary" id="genBtn">Link Generate करें</button>
         <button class="ghost" id="clearBtn">Clear</button>
@@ -226,19 +226,19 @@ const bigTitle = document.getElementById('g-title');
 if(incomingName){
   const dec = decodeURIComponent(incomingName);
   incoming.style.display='block';
-  fromLine.innerText = यह शुभकामना ${dec} की ओर से;
+  fromLine.innerText = `यह शुभकामना ${dec} की ओर से`;
   lead.innerText = 'आपको प्राप्त शुभकामना देखिये और अपना नाम डालकर आगे भेजें।';
 } else {
   lead.innerText = 'अपना नाम लिखें और अपनी Diwali greeting बनाकर शेयर करें।';
   nameInput.focus();
 }
 
-function baseLink(name){ return ${window.location.origin}${window.location.pathname}?${PARAM}=${encodeURIComponent(name)}; }
+function baseLink(name){ return `${window.location.origin}${window.location.pathname}?${PARAM}=${encodeURIComponent(name)}`; }
 function updateShares(link, name){
-  const text = 🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n${link};
-  waShare.href = https://wa.me/?text=${encodeURIComponent(text)};
-  fbShare.href = https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)};
-  igShare.href = https://www.instagram.com/?url=${encodeURIComponent(link)};
+  const text = `🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n${link}`;
+  waShare.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+  igShare.href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
 }
 
 genBtn.addEventListener('click', ()=>{
@@ -279,8 +279,8 @@ function spawnBgFirework(){
     const speed = 1.8 + Math.random()*3.2;
     particles.push({
       x:cx, y:cy,
-      vx: Math.cos(angle)speed(0.6+Math.random()*1.6),
-      vy: Math.sin(angle)speed(0.6+Math.random()*1.6),
+      vx: Math.cos(angle)*speed*(0.6+Math.random()*1.6),
+      vy: Math.sin(angle)*speed*(0.6+Math.random()*1.6),
       life:60 + Math.random()*80,
       hue: hue + (Math.random()*40-20),
       size: 1 + Math.random()*2
@@ -297,14 +297,14 @@ function drawBg(){
     p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.life--;
     const a = Math.max(0, p.life/100);
     const g = bgCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*8);
-    g.addColorStop(0, hsla(${p.hue},100%,65%,${0.95*a}));
-    g.addColorStop(0.4, hsla(${p.hue},90%,55%,${0.35*a}));
-    g.addColorStop(1, hsla(${p.hue},90%,45%,0));
+    g.addColorStop(0, `hsla(${p.hue},100%,65%,${0.95*a})`);
+    g.addColorStop(0.4, `hsla(${p.hue},90%,55%,${0.35*a})`);
+    g.addColorStop(1, `hsla(${p.hue},90%,45%,0)`);
     bgCtx.fillStyle = g;
     bgCtx.beginPath(); bgCtx.arc(p.x,p.y,p.size*6,0,Math.PI*2); bgCtx.fill();
     // core
     bgCtx.beginPath();
-    bgCtx.fillStyle = hsla(${p.hue},100%,70%,${a});
+    bgCtx.fillStyle = `hsla(${p.hue},100%,70%,${a})`;
     bgCtx.arc(p.x,p.y,p.size,0,Math.PI*2); bgCtx.fill();
     if(p.life <= 0) particles.splice(i,1);
   }
@@ -355,11 +355,11 @@ function drawTextLayer(){
     const a = Math.max(0, p.life/60);
     // small glow
     textCtx.beginPath();
-    textCtx.fillStyle = hsla(${p.hue},95%,65%,${a});
+    textCtx.fillStyle = `hsla(${p.hue},95%,65%,${a})`;
     textCtx.arc(p.x,p.y,p.size*2.6,0,Math.PI*2); textCtx.fill();
     // core bright
     textCtx.beginPath();
-    textCtx.fillStyle = hsla(${p.hue},100%,85%,${a});
+    textCtx.fillStyle = `hsla(${p.hue},100%,85%,${a})`;
     textCtx.arc(p.x,p.y,p.size,0,Math.PI*2); textCtx.fill();
     if(p.life <= 0) textSparks.splice(i,1);
   }
@@ -376,20 +376,14 @@ if(incomingName){
 const bgm = document.getElementById('bgm');
 const musicBtn = document.getElementById('musicBtn');
 let playing = false;
-musicBtn.addEventListener('click', async ()=>{
+musicBtn.addEventListener('click', toggleMusic);
+async function toggleMusic(){
   if(!playing){
-    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; }
-    catch(e){ alert('Tap again to start music 🎵'); }
-  } else {
-    bgm.pause(); playing=false; musicBtn.textContent='🔊';
-  }
-});
-document.body.addEventListener('click', async ()=>{
-  if(!playing){
-    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; }
-    catch(e){}
-  }
-},{once:true});
+    try{ await bgm.play(); playing=true; musicBtn.textContent='🔈'; } catch(e){ playing=false; }
+  } else { bgm.pause(); playing=false; musicBtn.textContent='🔊'; }
+}
+// try autoplay (may be blocked in some browsers)
+setTimeout(()=>{ bgm.play().then(()=>{ playing=true; musicBtn.textContent='🔈'; }).catch(()=>{}); }, 800);
 
 /* ---------- Accessibility focus ---------- */
 nameInput.focus();
