@@ -1,186 +1,429 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎇 शुभ दीपावली 🎇</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>✨ शुभ दीपावली ✨</title>
 <style>
-/* Body & Background */
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  background: linear-gradient(135deg, #ff9933, #ffcc33, #ffff66);
-  color: #fff;
-  overflow: hidden;
-  min-height: 100vh;
-}
+  :root{
+    --saffron1:#ff9a2e;
+    --saffron2:#ffb84d;
+    --yellow:#fff176;
+    --accent:#ff6a00;
+    --glow: rgba(255,200,0,0.35);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family: "Noto Sans", "Poppins", system-ui, sans-serif;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    background: linear-gradient(135deg,var(--saffron1), var(--saffron2) 40%, var(--yellow) 80%);
+    color:#311;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
 
-/* Big Diwali Text */
-h1#greetingText {
-  font-size: 3em;
-  margin-top: 30px;
-  font-weight: bold;
-  text-shadow: 2px 2px 15px #fff700, 0 0 25px #ff8c00;
-  animation: flicker 1.8s infinite alternate;
-}
-@keyframes flicker {
-  0% { opacity: 0.9; }
-  50% { opacity: 1; }
-  100% { opacity: 0.95; }
-}
+  /* central card */
+  .card{
+    margin-top:28px;
+    width:min(920px,96vw);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border-radius:18px;
+    padding:22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18), 0 0 60px var(--glow);
+    position:relative;
+    z-index:5;
+    backdrop-filter: blur(6px);
+  }
 
-/* Main Image */
-.main-img {
-  width: 240px;
-  border-radius: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 25px gold;
-  animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-  from { box-shadow: 0 0 10px gold; }
-  to { box-shadow: 0 0 35px orange; }
-}
+  /* big header */
+  h1.big {
+    margin:6px 0 8px;
+    font-size: clamp(28px, 4.2vw, 48px);
+    letter-spacing:1px;
+    color:#fff;
+    text-align:center;
+    text-shadow: 0 4px 18px rgba(255,200,0,0.9), 0 0 40px rgba(255,140,0,0.65);
+  }
 
-/* Input & Button */
-input {
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 8px;
-  border: none;
-  width: 80%;
-  max-width: 250px;
-  margin: 10px auto;
-  box-shadow: 0 0 10px #ffdf5e;
-}
+  /* Laxmi GIF */
+  .top-row{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  img.laxmi{
+    width:220px;
+    height:auto;
+    border-radius:14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 30px rgba(255,200,0,0.25);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+    100%{transform:translateY(0)}
+  }
 
-button {
-  padding: 10px 25px;
-  font-size: 1em;
-  background: linear-gradient(90deg, #ffcc00, #ff6600);
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  box-shadow: 0 0 15px #ffdf5e;
-  transition: transform 0.2s;
-}
-button:hover { transform: scale(1.05); }
+  /* text area + inputs */
+  .content{
+    max-width:520px;
+    text-align:center;
+  }
+  p.lead {
+    margin:6px 0 16px;
+    color:#fffdf0;
+    font-size:1.05rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+  }
 
-/* Link container */
-#linkContainer { display: none; margin-top: 20px; }
-#generatedLink { width: 90%; padding: 8px; border-radius: 8px; border: none; text-align: center; }
+  input[type="text"]{
+    width:100%;
+    max-width:360px;
+    padding:12px 14px;
+    border-radius:10px;
+    border: none;
+    outline:none;
+    font-size:16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 0 18px rgba(255,255,255,0.03);
+    text-align:center;
+  }
+  .row { margin-top:12px; display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
 
-/* Share Buttons */
-.share-buttons { margin-top: 15px; }
-.share-btn {
-  display: inline-block;
-  margin: 8px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-  transition: transform 0.2s;
-}
-.share-btn:hover { transform: scale(1.1); }
-.whatsapp { background-color: #25D366; }
-.facebook { background-color: #1877F2; }
-.instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); }
+  button.primary{
+    padding:10px 18px;
+    border-radius:10px;
+    border:none;
+    background: linear-gradient(90deg, var(--yellow), var(--accent));
+    color:#1b0a00;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow: 0 8px 30px rgba(255,120,0,0.18);
+  }
+  button.ghost{
+    padding:9px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.12);
+    background:transparent;
+    color:#fff;
+    cursor:pointer;
+  }
 
-/* Fireworks Canvas */
-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  /* generated link box */
+  .link-box{
+    margin-top:16px;
+    display:none;
+    gap:10px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .link-box input{
+    background: rgba(255,255,255,0.06);
+    color:#fff;
+    text-align:center;
+  }
+  .share-buttons{ display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:12px; }
+  .share-a{
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+    padding:10px 12px;
+    border-radius:10px;
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+    transition: transform .14s ease;
+  }
+  .share-a:active{ transform:scale(.98) }
+  .wa{ background:#25D366; }
+  .fb{ background:#1877F2; }
+  .ig{ background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+  .copy-btn{
+    background: rgba(255,255,255,0.12);
+    color:#fff;
+    padding:10px 12px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:700;
+  }
 
-/* Main container */
-#mainContainer { position: relative; z-index: 2; padding-top: 20px; }
+  /* message shown when link opened */
+  .incoming-message{
+    margin-top:16px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    padding:12px;
+    border-radius:10px;
+    color:#fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  .from-line{
+    margin-top:10px;
+    font-weight:800;
+    font-size:1.05rem;
+    color:#fff;
+    text-shadow: 0 2px 8px rgba(255,160,20,0.9);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%{ transform:translateY(0) scale(1) }
+    50%{ transform:translateY(-6px) scale(1.02) }
+    100%{ transform:translateY(0) scale(1) }
+  }
+
+  /* small footer instructions */
+  .hint{ font-size:0.9rem; color:rgba(255,255,255,0.9); margin-top:10px }
+
+  /* bottom decorative diya (SVG) */
+  .diya-svg{
+    position: absolute;
+    right:18px;
+    bottom:12px;
+    width:120px;
+    opacity:0.95;
+    z-index:3;
+    filter: drop-shadow(0 12px 30px rgba(255,150,0,0.35));
+    transform:translateY(6px);
+  }
+
+  /* responsive */
+  @media (max-width:640px){
+    .card{ padding:16px; margin-top:12px }
+    .top-row{ gap:10px }
+    img.laxmi{ width:160px }
+    .content{ padding:0 8px }
+  }
 </style>
 </head>
 <body>
 
-<canvas id="fireworks"></canvas>
+<!-- Fireworks canvas -->
+<canvas id="c"></canvas>
 
-<div id="mainContainer">
-  <!-- Laxmi Mata GIF -->
-  <img src="laxmimata.gif" alt="Laxmi Mata" class="main-img">
+<!-- Main card -->
+<div class="card" role="main">
+  <h1 class="big">✨ शुभ दीपावली ✨</h1>
 
-  <!-- Big Diwali Text -->
-  <h1 id="greetingText">✨ शुभ दीपावली ✨</h1>
+  <div class="top-row">
+    <!-- local gif: put laxmimata.gif in same folder -->
+    <img src="laxmimata.gif" alt="Laxmi Mata" class="laxmi" id="laxmiImg" />
 
-  <!-- Name input -->
-  <div id="nameInputContainer">
-    <input type="text" id="senderName" placeholder="अपना नाम लिखें">
-    <br>
-    <button onclick="generateLink()">अपनी Greeting बनाएं</button>
-  </div>
+    <div class="content">
+      <p class="lead" id="leadText">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
 
-  <!-- Generated link + share -->
-  <div id="linkContainer">
-    <p>👇 अपनी शेयर करने वाली लिंक:</p>
-    <input type="text" id="generatedLink" readonly>
-    <div class="share-buttons">
-      <a id="wa" class="share-btn whatsapp" target="_blank">📱 WhatsApp</a>
-      <a id="fb" class="share-btn facebook" target="_blank">📘 Facebook</a>
-      <a id="ig" class="share-btn instagram" target="_blank">📸 Instagram</a>
+      <!-- If page opened from someone else's generated link, we still show this box so receiver can forward -->
+      <div id="nameArea">
+        <input type="text" id="nameInput" placeholder="अपना नाम लिखें (उदाहरण: राहुल)">
+        <div class="row">
+          <button class="primary" id="genBtn">Link Generate करें</button>
+          <button class="ghost" id="clearBtn" title="Clear">Clear</button>
+        </div>
+      </div>
+
+      <!-- Generated link + share -->
+      <div class="link-box" id="linkBox" aria-hidden="true">
+        <input type="text" id="generatedLink" readonly />
+        <div class="row">
+          <button class="copy-btn" id="copyBtn">Copy Link</button>
+        </div>
+
+        <div class="share-buttons" id="shareButtons">
+          <a id="waShare" class="share-a wa" target="_blank" rel="noopener">📱 WhatsApp</a>
+          <a id="fbShare" class="share-a fb" target="_blank" rel="noopener">📘 Facebook</a>
+          <a id="igShare" class="share-a ig" target="_blank" rel="noopener">📸 Instagram</a>
+        </div>
+      </div>
+
+      <!-- Incoming message shown when someone opens a ?from=... link -->
+      <div id="incoming" class="incoming-message" style="display:none;">
+        <div style="font-weight:800; font-size:1.05rem">आपको और आपके पूरे परिवार को दिवाली की बहुत बहुत शुभकामनाएँ</div>
+        <div class="from-line" id="fromLine">—</div>
+        <div class="hint">आप चाहें तो अपना नाम डालकर यह संदेश किसी और को भेज सकते हैं।</div>
+      </div>
+
     </div>
   </div>
 </div>
 
+<!-- decorative diya svg -->
+<svg class="diya-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" fill-rule="evenodd">
+    <path d="M256 480c110.5 0 200-89.5 200-200H56c0 110.5 89.5 200 200 200z" fill="#ffb74d"/>
+    <path d="M256 24c36.9 0 72.6 16.5 97.6 45.8C362.9 112 320 128 320 192c0 56-48 56-64 56s-64 0-64-56c0-64-42.9-80-33.6-122.2C183.4 40.5 219.1 24 256 24z" fill="#ffd54f"/>
+    <ellipse cx="256" cy="400" rx="200" ry="40" fill="#ff9800" opacity="0.08"/>
+  </g>
+</svg>
+
 <script>
-// Check if URL has name param
-const url = new URL(window.location.href);
-const sender = url.searchParams.get("name");
-if(sender){
-  document.getElementById("greetingText").innerText = `🎇 Happy Diwali from ${sender} 🎆`;
-  document.getElementById("nameInputContainer").style.display = "none";
+/* ---------- Helper & config ---------- */
+const paramKey = 'from'; // query param containing sender name
+
+function qsParam(key){
+  const u = new URL(window.location.href);
+  return u.searchParams.get(key);
 }
 
-// Generate link + show share buttons
-function generateLink(){
-  const name = document.getElementById("senderName").value.trim();
-  if(!name) return alert("कृपया अपना नाम लिखें!");
-  
+/* ---------- Elements ---------- */
+const nameInput = document.getElementById('nameInput');
+const genBtn = document.getElementById('genBtn');
+const clearBtn = document.getElementById('clearBtn');
+const linkBox = document.getElementById('linkBox');
+const genLinkInput = document.getElementById('generatedLink');
+const waShare = document.getElementById('waShare');
+const fbShare = document.getElementById('fbShare');
+const igShare = document.getElementById('igShare');
+const copyBtn = document.getElementById('copyBtn');
+const incoming = document.getElementById('incoming');
+const fromLine = document.getElementById('fromLine');
+const leadText = document.getElementById('leadText');
+
+/* ---------- On load: if opened with ?from=Name ---------- */
+const incomingName = qsParam(paramKey);
+if(incomingName){
+  const decoded = decodeURIComponent(incomingName);
+  // show incoming message
+  incoming.style.display = 'block';
+  fromLine.innerText = `यह शुभकामना ${decoded} की ओर से`;
+  // guidance text
+  leadText.innerText = `दूसरे को भेजने के लिए अपना नाम डालें और लिंक बनाइए।`;
+  // prefill receiver's area empty (so they can enter their own)
+  nameInput.value = '';
+  // keep name input visible so receiver can create their own
+} else {
+  // no incoming link: normal prompt
+  leadText.innerText = 'अपना नाम लिखें और अपनी Diwali greeting बनाकर शेयर करें।';
+}
+
+/* ---------- Link generation ---------- */
+function makeBaseLink(name){
   const base = window.location.origin + window.location.pathname;
-  const link = `${base}?name=${encodeURIComponent(name)}`;
-  document.getElementById("generatedLink").value = link;
-  document.getElementById("linkContainer").style.display = "block";
-
-  document.getElementById("wa").href = `https://wa.me/?text=${encodeURIComponent("🎆 Happy Diwali! 🌟 मेरी Greeting देखो: " + link)}`;
-  document.getElementById("fb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
-  document.getElementById("ig").href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
+  return `${base}?${paramKey}=${encodeURIComponent(name)}`;
 }
 
-// Fireworks animation
-const canvas = document.getElementById('fireworks');
+function updateShareButtons(link, name){
+  const textWhats = `🎆 शुभ दीपावली! 🎆\nयह शुभकामना ${name} की ओर से।\n\nदेखें: ${link}`;
+  waShare.href = `https://wa.me/?text=${encodeURIComponent(textWhats)}`;
+  fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+  // Instagram doesn't support direct share url with prefilled text; open profile/new post - we provide link
+  igShare.href = `https://www.instagram.com/?url=${encodeURIComponent(link)}`;
+}
+
+genBtn.addEventListener('click', ()=>{
+  const name = (nameInput.value || '').trim();
+  if(!name){
+    alert('कृपया अपना नाम डालें।');
+    nameInput.focus();
+    return;
+  }
+  const link = makeBaseLink(name);
+  genLinkInput.value = link;
+  linkBox.style.display = 'flex';
+  linkBox.setAttribute('aria-hidden','false');
+  updateShareButtons(link, name);
+});
+
+clearBtn.addEventListener('click', ()=>{
+  nameInput.value = '';
+  genLinkInput.value = '';
+  linkBox.style.display = 'none';
+  linkBox.setAttribute('aria-hidden','true');
+  nameInput.focus();
+});
+
+/* copy */
+copyBtn.addEventListener('click', async ()=>{
+  const val = genLinkInput.value;
+  if(!val) return;
+  try{
+    await navigator.clipboard.writeText(val);
+    copyBtn.innerText = 'Copied!';
+    setTimeout(()=> copyBtn.innerText = 'Copy Link', 1400);
+  } catch(e){
+    alert('Copy failed — manually select and copy the link.');
+  }
+});
+
+/* ---------- Small tweak: pressing Enter triggers generate ---------- */
+nameInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') { genBtn.click(); }
+});
+
+/* ---------- Fireworks animation (simple, light-weight) ---------- */
+const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let fireworks = [];
-function random(min,max){return Math.random()*(max-min)+min;}
-function createFirework(){
-  const x=random(100,canvas.width-100);
-  const y=random(50,canvas.height/2);
-  for(let i=0;i<30;i++){
-    fireworks.push({x,y,r:2,c:`hsl(${random(0,360)},100%,60%)`,sx:random(-3,3),sy:random(-3,3),life:random(50,100)});
+let W = canvas.width = window.innerWidth;
+let H = canvas.height = window.innerHeight;
+window.addEventListener('resize', ()=>{ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
+
+const particles = [];
+
+/* particle factory */
+function spawnFirework(){
+  const cx = Math.random() * (W*0.8) + W*0.1;
+  const cy = Math.random() * (H*0.45) + H*0.05;
+  const hue = Math.floor(Math.random()*360);
+  const count = 18 + Math.floor(Math.random()*18);
+  for(let i=0;i<count;i++){
+    const speed = 1.8 + Math.random()*3;
+    const angle = (Math.PI*2) * (i/count) + (Math.random()*0.6 - 0.3);
+    particles.push({
+      x: cx,
+      y: cy,
+      vx: Math.cos(angle) * speed * (0.6 + Math.random()*1.4),
+      vy: Math.sin(angle) * speed * (0.6 + Math.random()*1.4),
+      life: 60 + Math.floor(Math.random()*60),
+      hue: hue + Math.random()*40 - 20,
+      size: 1 + Math.random()*2
+    });
   }
 }
-function animate(){
-  ctx.fillStyle="rgba(0,0,0,0.1)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  fireworks.forEach((f,i)=>{
+
+/* spawn regularly */
+setInterval(spawnFirework, 900); // roughly every second
+
+function step(){
+  ctx.fillStyle = "rgba(0,0,0,0.12)";
+  ctx.fillRect(0,0,W,H);
+
+  for(let i = particles.length-1; i>=0; i--){
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.03; // gravity
+    p.vx *= 0.998;
+    p.life--;
+    const alpha = Math.max(0, p.life / 90);
     ctx.beginPath();
-    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    ctx.fillStyle=f.c;
+    ctx.fillStyle = `hsla(${p.hue},90%,60%, ${alpha})`;
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
     ctx.fill();
-    f.x+=f.sx; f.y+=f.sy; f.life--;
-    if(f.life<=0) fireworks.splice(i,1);
-  });
-  requestAnimationFrame(animate);
+    // sparkle trail
+    if(Math.random() < 0.06){
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${p.hue},100%,85%,${alpha*0.6})`;
+      ctx.fillRect(p.x + (Math.random()-0.5)*6, p.y + (Math.random()-0.5)*6, 1.5, 1.5);
+    }
+    if(p.life <= 0){
+      particles.splice(i,1);
+    }
+  }
+  requestAnimationFrame(step);
 }
-setInterval(createFirework,1000);
-animate();
-window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+step();
+
+/* ---------- Accessibility: focus name input on load ---------- */
+nameInput.focus();
+
+/* ---------- Safety note: user must place laxmimata.gif next to this file ---------- */
+/* If image not found, browser will show broken image icon — ensure `laxmimata.gif` is uploaded to same repo/folder. */
+
 </script>
 </body>
 </html>
