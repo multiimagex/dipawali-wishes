@@ -19,7 +19,7 @@ body{
   align-items:center;
   justify-content:center;
   background:linear-gradient(135deg,var(--saffron1),var(--saffron2) 45%,var(--yellow) 100%);
-  color:#3a1e00;
+  color:#000000;
   overflow:hidden;
 }
 
@@ -56,12 +56,15 @@ img.laxmi{
 @keyframes float{ 0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)} }
 
 /* Big greeting with breathing glow */
-h1.big{
-  margin:0 0 4px; font-size:clamp(32px,5vw,64px); color:#fff; text-align:left;
-  font-weight:800;
-  text-shadow: 0 6px 30px rgba(255,230,150,0.95), 0 0 40px rgba(255,140,0,0.6);
+h1.big {
+  margin: 0 0 4px;
+  font-size: clamp(40px, 6vw, 80px); /* ← thoda bada */
+  color: black; /* ← black text */
+  text-align: center; /* ← center me kar do agar chaho */
+  font-weight: 900; /* ← extra bold */
+  text-shadow: 0 0 20px rgba(255, 200, 50, 0.8), 0 0 40px rgba(255, 150, 0, 0.6);
   animation: breath 3s ease-in-out infinite;
-  line-height:1;
+  line-height: 1.2;
 }
 @keyframes breath{
   0% { transform: translateY(0) scale(1); filter:drop-shadow(0 0 18px rgba(255,200,0,0.6)); }
