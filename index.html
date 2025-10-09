@@ -66,6 +66,20 @@ h1.big {
   animation: breath 3s ease-in-out infinite;
   line-height: 1.2;
 }
+  .greeting-message {
+  font-size: 2.5em;        /* ← text bada */
+  font-weight: 900;        /* ← bold */
+  color: black;            /* ← black text */
+  text-shadow: 0 0 10px rgba(255, 200, 100, 0.6); /* optional festive glow */
+  animation: glow 2s ease-in-out infinite alternate; /* optional glow effect */
+  text-align: center;
+  margin-top: 20px;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px gold, 0 0 20px orange; }
+  to { text-shadow: 0 0 25px yellow, 0 0 50px red; }
+}
+
 @keyframes breath{
   0% { transform: translateY(0) scale(1); filter:drop-shadow(0 0 18px rgba(255,200,0,0.6)); }
   50% { transform: translateY(-6px) scale(1.01); filter:drop-shadow(0 0 36px rgba(255,200,0,0.9)); }
@@ -179,7 +193,7 @@ button.ghost{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,2
     <p class="lead" id="lead">अपनी शुभकामना बनाइए — अपना नाम लिखें और लिंक शेयर करें।</p>
 
     <div id="nameArea">
-      <input id="nameInput" type="text" placeholder="अपना नाम लिखें (उदा: राहुल)" autocomplete="off">
+      <input id="nameInput" type="text" placeholder="अपना नाम लिखें" autocomplete="off">
       <div class="row">
         <button class="primary" id="genBtn">Link Generate करें</button>
         <button class="ghost" id="clearBtn">Clear</button>
