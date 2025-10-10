@@ -405,5 +405,19 @@ setTimeout(()=>{ bgm.play().then(()=>{ playing=true; musicBtn.textContent='🔈'
 /* ---------- Accessibility focus ---------- */
 nameInput.focus();
 </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const audio = new Audio("diwali-music.mp3"); // apne music file ka naam yahan likho
+  audio.loop = true; // loop me bajta rahe
+
+  // user click jaise hi kare — music start
+  const startMusic = () => {
+    audio.play().catch(err => console.log("Autoplay blocked:", err));
+    document.removeEventListener("click", startMusic); // ek hi baar trigger ho
+  };
+
+  document.addEventListener("click", startMusic);
+});
+</script>
 </body>
 </html>
